@@ -128,10 +128,10 @@ class Evaluator:
         rouge_dicts = [{'Precision': p, 'Recall': r, 'F1score': f} for p, r, f in rouge_results]
         score_df['RougeLScore'] = rouge_dicts
 
-        with BartScore() as bart_score:
-            bart_score = [bart_score.evaluate(chunk, ans) for chunk, ans in
+        with BartScore() as bart_score_metric:
+            bart_results = [bart_score_metric.evaluate(chunk, ans) for chunk, ans in
                      tqdm(zip(reference_list, answers_list), total=len(df))]
-        score_df['BARTScore'] = bart_score
+        score_df['BARTScore'] = bart_results
 
         with BleurtScore() as bleurt:
             bl_results = [bleurt.evaluate(chunk, ans) for chunk, ans in
@@ -288,7 +288,6 @@ class Evaluator:
         # for metric in MODEL_METRICS:
         #
         #
-
         #
         # # TODO: Figure AlignScore out
         #
